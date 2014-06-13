@@ -7,9 +7,10 @@ Still in development.
 
 ![Revamp screen 2](https://lh5.googleusercontent.com/m_hybewSh7e9TKFPdKYfSxMNG59NMwtv0m0p_crZd1KAjdEX_ROYKzEUmJ0Vq4FsEd9_spv9HRCEl62MDddF4AEQEsE2NBYDeDWjcvHjmHr6VMsCxEHeUmKHMEUsaewixQ)
 
-Built with Laravel
+
 [![Latest Stable Version](https://poser.pugx.org/laravel/framework/version.png)](https://packagist.org/packages/laravel/framework) [![Total Downloads](https://poser.pugx.org/laravel/framework/d/total.png)](https://packagist.org/packages/laravel/framework) [![Build Status](https://travis-ci.org/laravel/framework.png)](https://travis-ci.org/laravel/framework) [![License](https://poser.pugx.org/laravel/framework/license.png)](https://packagist.org/packages/laravel/framework)
 
+Built with Laravel
 
 ### License
 
