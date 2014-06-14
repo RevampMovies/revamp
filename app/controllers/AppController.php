@@ -25,5 +25,35 @@ class AppController extends BaseController {
 		} else return Response::json(array('error' => 'Id non presente!'), 500);
 		
 	}
+	
+	public function search()
+	{
+		if (Input::has('title'))
+			{
+				$title = Input::get('title');
+				//search by title
+				$res = DB::table('film')->where('titolo', 'LIKE', '%'.$title.'%')->get();
+				if (!empty($res))
+					{ //There are results
+						if (Auth::check())
+						{
+							return View::make('index')->with('films', $res)->with('username', Auth::user()->username);
+						} else {
+							return View::make('index')->with('films', $res);
+						}	
+					}
+				else
+					{ //No results
+					  if (Auth::check())
+						{
+							return View::make('index')->with('username', Auth::user()->username);
+						} else {
+							return View::make('index');
+						}				
+					}
+			} else return "Something went wrong!";
+		
+		
+	}
 
 }

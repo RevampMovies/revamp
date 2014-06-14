@@ -12,7 +12,7 @@
 -->
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" style="height: 100%;">
 <head>
     <meta charset="UTF-8">
     <link href="css/item.css" rel="stylesheet" type="text/css">
@@ -27,8 +27,8 @@
     <title>Revamp</title>
 </head>
 
-<body style="margin: 0px;">
-    <div class="background">
+<body style="margin: 0px;height: 100%;">
+    <div class="background" <?php if (empty($films) || sizeof($films)<17) echo 'style="height: 100%;overflow: hidden;"'; ?>>
 		
 		<!-- header -->
         <div id="header">
@@ -53,13 +53,14 @@
                 Genere&nbsp;&nbsp;
 
 
-                <a href="javascript:;" style="color:#2d75df; ">Tutti</a>
+                <a id="genre-chooser" href="javascript:;" style="color:#2d75df; ">Tutti</a>
 
 
             </div>
 
             <div class="genre-sort"></div>
 
+		
             <div class="sort-by">
                 Ordina&nbsp;Per&nbsp;&nbsp;
                 <a href="javascript:;" style="color:#2d75df;">Popolarità</a>
@@ -71,8 +72,8 @@
             <div class="queue"></div>
             <div class="favorites"></div>
 
-            <form class="SearchField">
-                <input type="search" placeholder="Cerca">
+            <form class="SearchField" method="GET" action="/revamp/public/search">
+                <input name="title" type="search" placeholder="Cerca">
             </form>
 
         </div>
@@ -193,25 +194,31 @@
             </div>
             
             
-				<?php foreach ($films as $film)
+				<?php
+				 if (empty($films))
 				{
-						echo '<div id="item" data-idfilm="'.$film->IDFilm.'">
-								<div class="cover" style="background-image: url('.$film->poster.');">
-									<div class="itemoverlay">
-										<div class="addtofavorites"></div>
-										<div class="viewmoreinfo"></div>
-										<div class="addtoqueue"></div>
-									</div>
-								</div>
+					echo '<div id="emptymessage"><h2>Nessun risultato!</h2></div>';
+				} else {
+					foreach ($films as $film)
+					{
+								echo '<div id="item" data-idfilm="'.$film->IDFilm.'">
+										<div class="cover" style="background-image: url('.$film->poster.');">
+											<div class="itemoverlay">
+												<div class="addtofavorites"></div>
+												<div class="viewmoreinfo"></div>
+												<div class="addtoqueue"></div>
+											</div>
+										</div>
 
-								<div class="title">
-									'.$film->titolo.'
-								</div>
+										<div class="title">
+											'.$film->titolo.'
+										</div>
 
-								<div class="year">
-									'.substr($film->anno, 0, 4).'
-								</div>
-							</div>';
+										<div class="year">
+											'.substr($film->anno, 0, 4).'
+										</div>
+									</div>';
+					}
 				}
 				?>
         </div>
@@ -233,13 +240,16 @@
     }
 </script>
 
+<?php 	if (!empty($films))
+			{ echo "
 <script>
 	//Isotope grid
 $('#item-container').isotope({
   itemSelector: '#item',
   layoutMode: 'fitRows',
 });
-</script>
+</script>";
+} ?>
 
 <script>
 	//Smooth scroll
@@ -302,6 +312,12 @@ $('.settings').click(function(e){
 		  e.stopPropagation();
 		  alert("addtofavorites!")});
 
+var genres = ["Comico","Drammatico","Storico","Tutti"];
+var i = 0;
+      $('.genre,.genre-sort').click( function(e){
+		  $('#genre-chooser').animate({ opacity: 0.8 }, 180 ).text(genres[i]).animate({ opacity: 1 }, "fast" );
+			  (i==3) ? i = 0 : i++;
+		  });
 </script>
 
 </html>

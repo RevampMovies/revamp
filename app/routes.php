@@ -44,3 +44,6 @@ Route::post('/register', array('uses' => 'AuthController@registration'));
 
 //Film GET (single)
 Route::get('film/{idfilm}', array('uses' => 'AppController@getfilm'))->where('idfilm', '[0-9]+');
+
+//Search GET
+Route::get('search', array('uses' => 'AppController@search'));

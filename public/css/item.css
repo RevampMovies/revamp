@@ -136,3 +136,13 @@
     font-family: "Open Sans", sans-serif;
     font-size: 11px;
 }
+
+#emptymessage {
+margin-left:-100px;
+margin-top:-30px;
+color:white;
+position:absolute;
+left:50%;
+top:50%;
+font-family: "Open Sans", sans-serif;
+}
