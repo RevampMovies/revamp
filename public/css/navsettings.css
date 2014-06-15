@@ -12,6 +12,7 @@
 			 background-image: url('../images/pellicola.png');
 			background-position: bottom;
 			background-repeat: no-repeat;
+			z-index: 9;
 			}
 			#menu h3{
 				font-family:arial;

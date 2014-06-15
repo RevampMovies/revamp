@@ -28,7 +28,7 @@
 </head>
 
 <body style="margin: 0px;height: 100%;">
-    <div class="background" <?php if (empty($films) || sizeof($films)<17) echo 'style="height: 100%;overflow: hidden;"'; ?>>
+    <div class="background">
 		
 		<!-- header -->
         <div id="header">
@@ -49,7 +49,7 @@
                 Cortometraggi
             </div>
 
-            <div class="genre">
+            <div class="genre" data-filter="*" >
                 Genere&nbsp;&nbsp;
 
 
@@ -197,11 +197,17 @@
 				<?php
 				 if (empty($films))
 				{
-					echo '<div id="emptymessage"><h2>Nessun risultato!</h2></div>';
+					echo '<div id="emptymessage">
+								<h2><i class="fa fa-search"></i> Nessun risultato!</h2>
+								<h4 style="text-align: center;color: #c3c5c7;">
+									<i class="fa fa-arrow-left"></i> 
+									<a href="javascript:window.history.back()" style="color: inherit;text-decoration: none;">Torna indietro</a>
+								</h4>
+						  </div>';
 				} else {
 					foreach ($films as $film)
 					{
-								echo '<div id="item" data-idfilm="'.$film->IDFilm.'">
+								echo '<div id="item" class="'.$film->IDCategoria.'" data-idfilm="'.$film->IDFilm.'">
 										<div class="cover" style="background-image: url('.$film->poster.');">
 											<div class="itemoverlay">
 												<div class="addtofavorites"></div>
@@ -222,6 +228,7 @@
 				}
 				?>
         </div>
+        <div id="filler" style="width: 100%;height: 100%;margin: 0;padding: 0;position: absolute; top: 0; left: 0;background-color: #17181b;"></div>
 	
 
     </div>
@@ -246,7 +253,7 @@
 	//Isotope grid
 $('#item-container').isotope({
   itemSelector: '#item',
-  layoutMode: 'fitRows',
+  layoutMode: 'fitRows'
 });
 </script>";
 } ?>
@@ -312,11 +319,17 @@ $('.settings').click(function(e){
 		  e.stopPropagation();
 		  alert("addtofavorites!")});
 
-var genres = ["Comico","Drammatico","Storico","Tutti"];
-var i = 0;
+var genres = ["Tutti","Comico","Drammatico","Storico"];
+var i = 1;
       $('.genre,.genre-sort').click( function(e){
 		  $('#genre-chooser').animate({ opacity: 0.8 }, 180 ).text(genres[i]).animate({ opacity: 1 }, "fast" );
+			  $('.genre').attr('data-filter',(i==0) ? '*' : i);
 			  (i==3) ? i = 0 : i++;
+			  var filterValue = $('.genre').attr('data-filter');
+			  if (filterValue!='*')
+					filterValue = "."+filterValue;
+			  $('#item-container').isotope({ filter: filterValue });
+			  
 		  });
 </script>
 
