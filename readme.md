@@ -1,4 +1,4 @@
-## Revamp
+## :movie_camera: Revamp
 A web application for the streaming of independent and historic italian films. It includes a user system, votes and more.
 
 :)
