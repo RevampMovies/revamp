@@ -7,7 +7,8 @@
 		"laravel/framework": "4.1.*",
 		"kriswallsmith/assetic"   : "1.2.*@dev",
 		"toopay/assetic-minifier" : "dev-master",
-		"jasonlewis/resource-watcher" : "dev-master"
+		"jasonlewis/resource-watcher" : "dev-master",
+		"robclancy/laravel4-hashing": "1.0.x"
 	},
 	"autoload": {
 		"classmap": [
@@ -35,5 +36,5 @@
 	"config": {
 		"preferred-install": "dist"
 	},
-	"minimum-stability": "stable"
+	"minimum-stability": "dev"
 }

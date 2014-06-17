@@ -8,13 +8,31 @@
        _'  ._ .' (____)
         `        (___)
        --`'------'`          
-       Made in Italy
+       Made in Italy :)
 -->
 <!DOCTYPE html>
 
 <html lang="en" style="height: 100%;">
 <head>
     <meta charset="UTF-8">
+    <!-- for Google -->
+	<meta name="title" content="Revamp" />
+	<meta name="description" content="Revamp is a web application for the streaming of indipendent and historic films." />
+	<meta name="keywords" content="revamp,streaming,indie,historic,film,movie" />
+	<meta name="author" content="Lorenzo Stella,Giulio Perin" />
+	<meta name="copyright" content="2014" />
+	<meta name="application-name" content="Revamp" />
+	<!-- for Facebook -->          
+	<meta property="og:title" content="Revamp" />
+	<meta property="og:type" content="article" />
+	<meta property="og:image" content=" http://www.revampmovies.org/images/share_logo.png" />
+	<meta property="og:url" content=" http://www.revampmovies.org" />
+	<meta property="og:description" content="Revamp is a web application for the streaming of indipendent and historic films." />
+	<!-- for Twitter -->          
+	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:title" content="Revamp" />
+	<meta name="twitter:description" content="Revamp is a web application for the streaming of indipendent and historic films." />
+	<meta name="twitter:image" content="http://www.revampmovies.org/images/share_logo.png" />
     <link href="css/item.css" rel="stylesheet" type="text/css">
     <link href="css/detailed-info.css" rel="stylesheet" type="text/css">
     <link href="css/frame.css" rel="stylesheet" type="text/css">
@@ -23,12 +41,14 @@
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:600' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/magnific-popup.css">
+    <link rel="stylesheet" href="css/jbar.css">
+	<link rel="stylesheet" href="css/loading.css">
     <link rel="shortcut icon" href="favicon.ico" />
     <title>Revamp</title>
 </head>
 
 <body style="margin: 0px;height: 100%;">
-    <div class="background">
+    <div class="background" style="overflow-x: hidden;">
 		
 		<!-- header -->
         <div id="header">
@@ -39,15 +59,15 @@
             </div>
 
             <div class="movies">
-                Film
+                <a href="/" style="color: #c3c5c7;">Film</a>
                 <div class="selected movies"></div>
             </div>
 
 
-
+<!--
             <div class="tv-series">
                 Cortometraggi
-            </div>
+            </div> -->
 
             <div class="genre" data-filter="*" >
                 Genere&nbsp;&nbsp;
@@ -61,9 +81,9 @@
             <div class="genre-sort"></div>
 
 		
-            <div class="sort-by">
+            <div class="sort-by" data-sort-value="original-order">
                 Ordina&nbsp;Per&nbsp;&nbsp;
-                <a href="javascript:;" style="color:#2d75df;">Popolarità</a>
+                <a id="sort-text" href="javascript:;" style="color:#2d75df;">Popolarità</a>
             </div>
 
             <div class="genre-sort"></div>
@@ -72,20 +92,20 @@
             <div class="queue"></div>
             <div class="favorites"></div>
 
-            <form class="SearchField" method="GET" action="/revamp/public/search">
-                <input name="title" type="search" placeholder="Cerca">
+            <form class="SearchField" method="GET" action="search">
+                <input name="title" type="search" placeholder="Cerca" required>
             </form>
 
         </div>
-
-	<!-- right mobile style menu -->
-		<div id="menu">
+        
+	    <!-- right mobile style menu -->
+        <div id="menu">
 			<?php if (!empty($username) && isset($username))
 			{
 	echo '	<h3>Impostazioni</h3>
 				<ul> <!--  class="active" -->
 					<li><a href="user/'.$username.'" class="contentLink"><i class="fa fa-user"></i> Profilo </a></li>
-					<li><a href="#" class="contentLink"><i class="fa fa-film"></i> I miei film </a></li>
+					<li><a href="user/'.$username.'#favourite-films"  class="contentLink"><i class="fa fa-film"></i> I miei film </a></li>
 					<li><a href="#" class="contentLink"><i class="fa fa-key"></i> Modifica password </a></li>
 					<li><a href="logout" class="contentLink"><i class="fa fa-sign-out"></i>'.ucfirst($username).' Logout </a></li>
 				</ul>
@@ -95,8 +115,8 @@
 				 echo '<h3>Accedi</h3><br>
 				<ul>
 					<li>
-					  <input type="text" id="username" name="username" class="inputlog" placeholder="Username">
-					  <input type="password" id="password" name="password" class="inputlog" placeholder="Password">
+					  <input type="text" id="username" name="username" class="inputlog" placeholder="Username" required>
+					  <input type="password" id="password" name="password" class="inputlog" placeholder="Password" required>
 					  <div class="login-btn">Login</div>
 					  <div class="register-btn" onclick="showElm(\'overlay\'); showElm(\'registration\');">Registrati</div>
 					</li>
@@ -110,6 +130,7 @@
         <div class="item-cover" style=
         "background: url(images/revamplogo.png) no-repeat, url(images/cinema_pellicola.png) no-repeat;background-position: bottom left, center;background-size: 120px 80px, 196px 292px;">
         </div>
+                 
 
         <div class="close" onclick="hideElm('overlay'); hideElm('registration');"></div>
 
@@ -142,11 +163,13 @@
                 presto il mio consenso ai sensi dell'art. 23 del D.lgs n.
                 196/2003.</label>
             </div>
+            
 
             <div class="register-btn" id="regbtn" style=
             "margin-top: -160px;margin-left: 237px;">
                 Registrati
             </div>
+            
         </div>
     </div>
             
@@ -229,15 +252,23 @@
 				?>
         </div>
         <div id="filler" style="width: 100%;height: 100%;margin: 0;padding: 0;position: absolute; top: 0; left: 0;background-color: #17181b;"></div>
-	
-
+             
+        <!-- More -->
+   <!-- <div class="load">
+            <button type="button" class="btn btn-primary btn-lg btn-block">
+        </div> -->
+	<div class="load-more">
+		<div class="logo load-icon">
+		</div>
+	</div>
+        
     </div>
+
 </body>
 
 <script src="js/jquery-2.1.0.min.js"></script>
 <script src="js/isotope.min.js"></script>
 <script type="text/javascript" src="js/jquery.easing.min.js"></script>
-
 <script>
     function hideElm(name) {
         $('#' + name).fadeOut('slow');
@@ -253,11 +284,13 @@
 	//Isotope grid
 $('#item-container').isotope({
   itemSelector: '#item',
-  layoutMode: 'fitRows'
+  layoutMode: 'fitRows',
+  getSortData: {
+      title: '.title',
+      year: '.year' }
 });
 </script>";
 } ?>
-
 <script>
 	//Smooth scroll
 if (window.addEventListener) window.addEventListener('DOMMouseScroll', wheel, false);
@@ -295,6 +328,7 @@ $('.settings').click(function(e){
 <script type="text/javascript" src="js/jquery.fullscreen-min.js"></script>
 <script type="text/javascript" src="js/core.js"></script>
 <script type="text/javascript" src="js/jquery.magnific-popup.min.js"></script>
+<script type="text/javascript" src="js/jquery.bar.js"></script>
 <script>
 	//Fullscreen caller
 	function fullscreen() {
@@ -313,11 +347,6 @@ $('.settings').click(function(e){
           fixedContentPos: false
         });
       });
-      
-      //addtofavorites
-      $('.addtofavorites').click( function(e){
-		  e.stopPropagation();
-		  alert("addtofavorites!")});
 
 var genres = ["Tutti","Comico","Drammatico","Storico"];
 var i = 1;
@@ -331,6 +360,28 @@ var i = 1;
 			  $('#item-container').isotope({ filter: filterValue });
 			  
 		  });
+		 
+var sorts = ["Popolarità","Titolo","Anno"];
+var sortsval = ["original-order","title","year"];
+var j = 1;
+		  $('.sort-by').click( function() {
+			    $('#sort-text').animate({ opacity: 0.8 }, 180 ).text(sorts[j]).animate({ opacity: 1 }, "fast" );
+			    $('.sort-by').attr('data-sort-value',sortsval[j]);
+				(j==2) ? j = 0 : j++;
+			var sortValue = $(this).attr('data-sort-value');
+			$('#item-container').isotope({ sortBy: sortValue });
+		  });
+		  
+$('.favorites, .queue').click(function(){
+	 $(".favorites").bar({
+								color			 : '#2d75df',
+								background_color : 'rgba(255,255,255, 0.8)',
+								position		 : 'bottom',
+								removebutton     : false,
+								message			 : "Non sei loggato!",
+								time			 : 3000
+						});
+});
 </script>
 
 </html>

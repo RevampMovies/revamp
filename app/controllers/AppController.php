@@ -7,7 +7,8 @@ class AppController extends BaseController {
 	| Web App Controller
 	|--------------------------------------------------------------------------
 	*/
-
+	
+	//Get single film info  (detailed-info)
 	public function getfilm($idfilm)
 	{
 		
@@ -26,6 +27,7 @@ class AppController extends BaseController {
 		
 	}
 	
+	// Search function
 	public function search()
 	{
 		if (Input::has('title'))
@@ -55,5 +57,38 @@ class AppController extends BaseController {
 		
 		
 	}
+	
+	//Set favourite
+	public function setFav($idfilm) {
+		if (Auth::check())
+		{ 	
+			$idfilm = array('idfilm' => $idfilm);
+			$userid = Auth::id();
+			$rules = array('idfilm' => 'exists:film,IDFilm');
+			$validator = Validator::make($idfilm, $rules);
+				if($validator->passes())
+				{
+					try {
+					$query = DB::table('favourites')->insert(array('IDUtente' => $userid, 'IDFilm' => $idfilm['idfilm']));
+					} catch (Illuminate\Database\QueryException $ex) {
+						return Response::json(array('error' => 'Già aggiunto ai preferiti'), 500);
+					}
+					return Response::json(array('success' => 'Aggiunto'), 200);
+				}
+				return Response::json(array('error' => 'ID film non presente!'), 500);
+			
+		} else 
+			return Response::json(array('error' => 'Non sei loggato!'), 401);
+	}
+	
+	//Stream feed handler
+	public function stream($last) { 	
+						try { //Salta $last posizioni, restituisce 8 films nel feed
+						$query = DB::table('film')->skip($last)->take(8)->select('IDFilm', 'IDCategoria', 'titolo', 'poster', 'anno')->get();
+						} catch (Illuminate\Database\QueryException $ex) {
+							return Response::json(array('error' => 'Qualcosa è andato storto!'), 500);
+						}
+						return Response::json($query);			
+		}
 
 }

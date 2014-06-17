@@ -10,6 +10,8 @@
     -webkit-user-select: none;
     -o-user-select: none;
     overflow: hidden;
+    margin-left: 0.5%;
+	margin-right: auto;
     
 }
 #item-container .black-overlay {

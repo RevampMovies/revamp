@@ -14,14 +14,20 @@ class UserController extends BaseController {
 			{
 			 return Response::make(View::make('errors/404'), 404); //restituisce 404 page
 			}
-		   $profiledump = with(new gravatar)->getprofile($userprofile->email); //uso gravatar API (profilo)
-		   $grav = with(new gravatar)->get($userprofile->email);  //uso gravatar API (avatar)
-		    
+			
+			
+		     $profiledump = with(new gravatar)->getprofile($userprofile->email); //uso gravatar API (profilo)
+		     $grav = with(new gravatar)->get($userprofile->email);  //uso gravatar API (avatar)
+		    $favfilms = DB::table('film')
+						->join('favourites', 'film.IDFilm', '=', 'favourites.IDFilm')
+						->where('IDUtente',$userprofile->id) 
+						->select('favourites.IDFilm', 'film.IDCategoria', 'film.titolo', 'film.anno', 'film.poster')
+						->get();
 			if (Auth::check())
 			{ 
-				return View::make('user_profile')->with('usernick', $userprofile->username)->with('userimg', $grav)->with('profiledump', $profiledump)->with('username', Auth::user()->username);
+				return View::make('user_profile')->with('usernick', $userprofile->username)->with('userimg', $grav)->with('profiledump', $profiledump)->with('films', $favfilms)->with('username', Auth::user()->username);
 			} else {
-				return View::make('user_profile')->with('usernick', $userprofile->username)->with('userimg', $grav)->with('profiledump', $profiledump);
+				return View::make('user_profile')->with('usernick', $userprofile->username)->with('userimg', $grav)->with('profiledump', $profiledump)->with('films', $favfilms);
 			}
     }
     
@@ -38,7 +44,7 @@ class UserController extends BaseController {
 		   public function get( $email, $s = 120, $d = 'mm', $r = 'g', $img = false, $atts = array() ) {
 			$url = 'http://www.gravatar.com/avatar/';
 			$url .= md5( strtolower( trim( $email ) ) );
-			$url .= "?s=$s&d=$d&r=$r";
+			$url .= "?s=$s&d=$d&r=$r"; 
 			if ( $img ) {
 				$url = '<img src="' . $url . '"';
 				foreach ( $atts as $key => $val )
@@ -54,10 +60,7 @@ class UserController extends BaseController {
 			$str = file_get_contents( 'http://www.gravatar.com/'.$emailmd5.'.php' );
 			} catch (ErrorException $ex)
 			{
-				$unknownprofile = [
-					"currentLocation" => "Sconosciuta",
-					"name" => ["formatted" => $email] //  "accounts" => [0 => ["shortname"=>"?","url"=>"?"]]
-				];
+				$unknownprofile = array( "currentLocation" => "Sconosciuta",	"name" => array( "formatted" => $email) );
 				return $unknownprofile;
 			}
 			$profile = unserialize( $str );

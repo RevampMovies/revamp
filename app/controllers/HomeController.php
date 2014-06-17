@@ -17,6 +17,8 @@ class HomeController extends BaseController {
 
 	public function showIndex()
 	{
+		//Prende i primi 15 film nel database e mette in cache il risultato della query per 15 minuti 
+		//(guadagno prestazioni)
 		$films = DB::table('film')->take(24)->remember(15)->get();
 		if (!is_null($films))
 		{

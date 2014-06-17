@@ -55,9 +55,9 @@ return array(
 		'mysql' => array(
 			'driver'    => 'mysql',
 			'host'      => 'localhost',
-			'database'  => 'revamp',
-			'username'  => 'root',
-			'password'  => '',
+			'database'  => 'revampmovies',
+			'username'  => 'revampmovies',
+			'password'  => 'rvmp!2014!db',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',

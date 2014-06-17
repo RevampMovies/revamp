@@ -22,6 +22,7 @@
     <link href="../css/navsettings.css" rel="stylesheet" type="text/css">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:600' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="../font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../css/magnific-popup.css">
     <link rel="shortcut icon" href="../favicon.ico" />
     <title>Revamp</title>
 </head>
@@ -38,15 +39,15 @@
             </div>
 
             <div class="movies">
-                Film
+                <a href="/" style="color: #c3c5c7;">Film</a>
                 <div class="selected movies"></div>
             </div>
 
 
-
+<!--
             <div class="tv-series">
                 Cortometraggi
-            </div>
+            </div> -->
 
 
 
@@ -133,7 +134,48 @@
             </div>
         </div>
     </div>
-            
+          <div id="item-detail">
+
+                <div class="item-cover" id="coverdetail">
+
+                </div>
+                <div class="close" onclick="hideElm('overlay');  hideElm('item-detail');"></div>
+
+                <div class="item-title" id="titledetail"></div>
+                <div class="item-year" id="yeardetail"></div>
+                <div class="dot"></div>
+                <div class="item-runtime" id="runtimedetail"></div>
+                <div class="dot"></div>
+
+                <div class="star"></div>
+                <div class="star"></div>
+                <div class="star"></div>
+                <div class="star"></div>
+                <div class="star null"></div>
+                <div class="health-icon Excellent"></div>
+
+                <div class="item-overview" id="overviewdetail"></div>
+                <div id="btn-watch">
+                    <div class="watch-now"><a style="color:white;text-decoration:none" class="player" href="http://www.youtube.com/">Guarda Ora</a></div>
+                </div>
+
+                <div class="q720">LQ</div>
+
+
+                <div class="q1080">HQ</div>
+                <div class="quality switch white">
+                    <input type="radio" name="switch" id="switch-off" checked>
+                    <input type="radio" name="switch" id="switch-on">
+
+                    <span class="toggle"></span>
+                </div>
+				
+               
+
+                <div class="flag first italian"></div>
+
+
+            </div>   
 	 
 	 
 	 <section id="user-info" style="display: block;color: #fff;font-weight: normal;-webkit-font-smoothing: antialiased;">
@@ -171,15 +213,53 @@
 
 <br/>
 
-<h2 style="color: #c3c5c7;margin-left: 5%;"><i class="fa fa-video-camera"></i>&nbsp;I film di <?php echo $usernick; ?></h2>
-<br/>
-</div>
+<h2 id="favourite-films" style="color: #c3c5c7;margin-left: 5%;"><i class="fa fa-video-camera"></i>&nbsp;I film di <?php echo $usernick; ?></h2>
 
+ <?php if (empty($films))
+				{
+					echo '<h4 style="color: #c3c5c7;text-align: center;">Nessun film aggiunto!</h4>';
+				}
+				?>
+				<br/>
+<div id="favfilms-container">
+	           
+<?php
+				 if (!empty($films))
+				{
+					foreach ($films as $film)
+					{
+								echo '<div id="item" class="'.$film->IDCategoria.'" data-idfilm="'.$film->IDFilm.'">
+										<div class="cover" style="background-image: url('.$film->poster.');">
+											<div class="itemoverlay">
+												<div class="addtofavorites"></div>
+												<div class="viewmoreinfo"></div>
+												<div class="addtoqueue"></div>
+											</div>
+										</div>
+
+										<div class="title">
+											'.$film->titolo.'
+										</div>
+
+										<div class="year">
+											'.substr($film->anno, 0, 4).'
+										</div>
+									</div>';
+					}
+				}
+				?>
+
+</div>
+</div>
+  
+ <div id="filler" style="z-index: -1;width: 100%;height: 100%;margin: 0;padding: 0;position: absolute; top: 0; left: 0;background-color: #17181b;"></div>
+	
 </div>
 
 
 <script src="../js/jquery-2.1.0.min.js"></script>
 <script src="../js/isotope.min.js"></script>
+<script type="text/javascript" src="../js/jquery.magnific-popup.min.js"></script>
 <script type="text/javascript" src="../js/jquery.easing.min.js"></script>
 
 <script>
@@ -193,10 +273,10 @@
 
 <script>
 	//Isotope grid
-//$('#item-container').isotope({
-//  itemSelector: '#item',
-//  layoutMode: 'fitRows',
-//});
+$('#favfilms-container').isotope({
+  itemSelector: '#item',
+  layoutMode: 'fitRows',
+});
 </script>
 
 <script>
@@ -241,6 +321,19 @@ $('.settings').click(function(e){
 		$(".settings").trigger( "click" );
 		$(document).fullScreen(true);
 	}
+	
+	// Video player
+      $(document).ready(function() {
+        $('.player').magnificPopup({
+          disableOn: 700,
+          type: 'iframe',
+          mainClass: 'mfp-fade',
+          removalDelay: 160,
+          preloader: false,
+          fixedContentPos: false
+        });
+      });
+   
 </script>
 </body>
 </html>

@@ -47,3 +47,15 @@ Route::get('film/{idfilm}', array('uses' => 'AppController@getfilm'))->where('id
 
 //Search GET
 Route::get('search', array('uses' => 'AppController@search'));
+
+//Privacy GET
+Route::get('privacy', function() {	return View::make('privacy'); });
+
+//ToS GET
+Route::get('terms', function() {	return View::make('tos'); });
+
+//Fav POST
+Route::post('addfav/{idfilm}', array('uses' => 'AppController@setFav'))->where('idfilm', '[0-9]+');
+
+//Stream GET
+Route::get('stream/{last}', array('uses' => 'AppController@stream'))->where('last', '[0-9]+');

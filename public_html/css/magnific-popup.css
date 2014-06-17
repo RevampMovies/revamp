@@ -19,7 +19,8 @@
   z-index: 1043;
   position: fixed;
   outline: none !important;
-  -webkit-backface-visibility: hidden; }
+  -webkit-backface-visibility: hidden; 
+  z-index: 99999; }
 
 .mfp-container {
   text-align: center;

@@ -26,11 +26,24 @@ class AuthController extends BaseController {
         if ($validator->passes())
         {
             // rimuovo username
-            unset($userdata['username']);
+           // unset($userdata['username']);
  
-            // Tentativo login
-            if (Auth::attempt($userdata))
+
+			// Here's the fact:
+			// A causa di php su questo server che ha una versione 5.3.3-7 (laravel necessita <= 5.3.7)
+			// non è possibile utilizzare correttamente mcrypt. Ergo si provvede a usare sha1 ed eseguire 
+			// il login con un workaround. Si è provato ad usare https://github.com/robclancy/laravel4-hashing
+			// per cambiare Bcrypt con SHA512, ma portava alcuni problemi (Unsupported Password Hash Supplied)
+			// !! Attenzione: - criptatura debole (sha1).
+			//                - TODO salted hash
+           // Tentativo login
+            //if (Auth::attempt($userdata)) // usare questo se con php 5.3.7 && MCrypt
+            
+            $user = DB::table('users')->where('username',$userdata['username'])->where('password',sha1($userdata['password']))->first();
+            
+           if (!empty($user))
             {
+				Auth::loginUsingId($user->id);
                 // JSON successo 
                 return Response::json(array('success' => 'You have logged in successfully', 'username' => Input::get('username')));
             }
@@ -63,7 +76,7 @@ class AuthController extends BaseController {
     {
 			// Fetch all request data.
 			$data = Input::all();
-
+			
 			// Build the validation constraint set.
 			$rules = array(
 				'username'   => 'required|alpha_num|min:3|max:32|unique:users',
@@ -77,7 +90,7 @@ class AuthController extends BaseController {
 			if ($validator->passes()) {
 				unset($data["check"]);
 				// Adding data
-				$data["password"] = Hash::make($data["password"]);
+				$data["password"] = sha1($data["password"]);
 				$data["role"] = "User";
 				$data["created_at"] = date("Y-m-d H:i:s");
 			    $data["updated_at"] = date("Y-m-d H:i:s");
