@@ -69,15 +69,10 @@
             </div>
 
             <div class="movies">
-                Film
+                 <a href="/" style="color: #c3c5c7;">Film</a>
                 <div class="selected movies"></div>
             </div>
 
-
-
-            <div class="tv-series">
-                Cortometraggi
-            </div>
 
             <div class="genre" data-filter="*" >
                 Genere&nbsp;&nbsp;

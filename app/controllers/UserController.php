@@ -18,16 +18,26 @@ class UserController extends BaseController {
 			
 		     $profiledump = with(new gravatar)->getprofile($userprofile->email); //uso gravatar API (profilo)
 		     $grav = with(new gravatar)->get($userprofile->email);  //uso gravatar API (avatar)
+		     
+		     //Film preferiti
 		    $favfilms = DB::table('film')
 						->join('favourites', 'film.IDFilm', '=', 'favourites.IDFilm')
 						->where('IDUtente',$userprofile->id) 
 						->select('favourites.IDFilm', 'film.IDCategoria', 'film.titolo', 'film.anno', 'film.poster')
 						->get();
+						
+			 //Film da vedere
+			 $watchlaterfilms = DB::table('film')
+						->join('watchlater', 'film.IDFilm', '=', 'watchlater.IDFilm')
+						->where('IDUtente',$userprofile->id) 
+						->select('watchlater.IDFilm', 'film.IDCategoria', 'film.titolo', 'film.anno', 'film.poster')
+						->get();
+						
 			if (Auth::check())
 			{ 
-				return View::make('user_profile')->with('usernick', $userprofile->username)->with('userimg', $grav)->with('profiledump', $profiledump)->with('films', $favfilms)->with('username', Auth::user()->username);
+				return View::make('user_profile')->with('usernick', $userprofile->username)->with('userimg', $grav)->with('profiledump', $profiledump)->with('films', $favfilms)->with('watchlater', $watchlaterfilms)->with('username', Auth::user()->username);
 			} else {
-				return View::make('user_profile')->with('usernick', $userprofile->username)->with('userimg', $grav)->with('profiledump', $profiledump)->with('films', $favfilms);
+				return View::make('user_profile')->with('usernick', $userprofile->username)->with('userimg', $grav)->with('profiledump', $profiledump)->with('films', $favfilms)->with('watchlater', $watchlaterfilms);
 			}
     }
     

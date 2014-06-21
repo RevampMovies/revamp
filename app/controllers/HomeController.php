@@ -19,7 +19,7 @@ class HomeController extends BaseController {
 	{
 		//Prende i primi 15 film nel database e mette in cache il risultato della query per 15 minuti 
 		//(guadagno prestazioni)
-		$films = DB::table('film')->take(24)->remember(15)->get();
+		$films = DB::table('film')->take(37)->remember(10)->get();
 		if (!is_null($films))
 		{
 			if (Auth::check())

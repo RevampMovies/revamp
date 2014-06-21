@@ -250,6 +250,47 @@
 				?>
 
 </div>
+<br/>
+<h2 id="watchlater-films" style="color: #c3c5c7;margin-left: 5%;"><i class="fa fa-clock-o"></i>&nbsp;I film da vedere </h2>
+
+ <?php if (empty($watchlater))
+				{
+					echo '<h4 style="color: #c3c5c7;text-align: center;">Nessun film ancora aggiunto!</h4>';
+				}
+				?>
+				<br/>
+<div id="favfilms-container">
+	           
+<?php
+				 if (!empty($watchlater))
+				{
+					foreach ($watchlater as $film)
+					{
+								echo '<div id="item" class="'.$film->IDCategoria.'" data-idfilm="'.$film->IDFilm.'">
+										<div class="cover" style="background-image: url('.$film->poster.');">
+											<div class="itemoverlay">
+												<div class="addtofavorites"></div>
+												<div class="viewmoreinfo"></div>
+												<div class="addtoqueue"></div>
+											</div>
+										</div>
+
+										<div class="title">
+											'.$film->titolo.'
+										</div>
+
+										<div class="year">
+											'.substr($film->anno, 0, 4).'
+										</div>
+									</div>';
+					}
+				}
+				?>
+
+</div>
+
+
+
 </div>
   
  <div id="filler" style="z-index: -1;width: 100%;height: 100%;margin: 0;padding: 0;position: absolute; top: 0; left: 0;background-color: #17181b;"></div>

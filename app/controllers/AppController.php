@@ -21,7 +21,9 @@ class AppController extends BaseController {
 										'poster' => $film->poster,
 										'anno' => substr($film->anno, 0, 4),
 										'descrizione' => $film->descrizione,
-										'link' => $film->link
+										'link' => $film->link,
+                                        'IDRegisti' => $film->IDRegisti,
+                                        'health' => $film->health                       
 										));
 		} else return Response::json(array('error' => 'Id non presente!'), 500);
 		
@@ -90,5 +92,28 @@ class AppController extends BaseController {
 						}
 						return Response::json($query);			
 		}
+    
+    //Set watchlater
+    public function setWatchLater($idfilm) {
+		if (Auth::check())
+		{ 	
+			$idfilm = array('idfilm' => $idfilm);
+			$userid = Auth::id();
+			$rules = array('idfilm' => 'exists:film,IDFilm');
+			$validator = Validator::make($idfilm, $rules);
+				if($validator->passes())
+				{
+					try {
+					$query = DB::table('watchlater')->insert(array('IDUtente' => $userid, 'IDFilm' => $idfilm['idfilm']));
+					} catch (Illuminate\Database\QueryException $ex) {
+						return Response::json(array('error' => 'Già aggiunto alla Watchlist'), 500);
+					}
+					return Response::json(array('success' => 'Aggiunto'), 200);
+				}
+				return Response::json(array('error' => 'ID film non presente!'), 500);
+			
+		} else 
+			return Response::json(array('error' => 'Non sei loggato!'), 401);
+	}
 
 }

@@ -57,5 +57,8 @@ Route::get('terms', function() {	return View::make('tos'); });
 //Fav POST
 Route::post('addfav/{idfilm}', array('uses' => 'AppController@setFav'))->where('idfilm', '[0-9]+');
 
+//Watch It Later POST
+Route::post('watchlater/{idfilm}', array('uses' => 'AppController@setWatchLater'))->where('idfilm', '[0-9]+');
+
 //Stream GET
 Route::get('stream/{last}', array('uses' => 'AppController@stream'))->where('last', '[0-9]+');

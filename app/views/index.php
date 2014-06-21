@@ -46,6 +46,20 @@
     <link rel="shortcut icon" href="favicon.ico" />
     <title>Revamp</title>
 </head>
+    <script>/*
+    var password;
+
+    var pass1="lol";
+
+    password=prompt('Please enter your password to view this page!','');
+
+    if (password==pass1)
+        alert('Password Correct! Click OK to enter!');
+    else
+       {
+        window.location="http://www.revampmovies.org//home/revampmovies/app/views/errors/404.php";
+        }*/
+</script>
 
 <body style="margin: 0px;height: 100%;">
     <div class="background" style="overflow-x: hidden;">
@@ -91,7 +105,7 @@
             <div class="settings"></div>
             <div class="queue"></div>
             <div class="favorites"></div>
-
+            
             <form class="SearchField" method="GET" action="search">
                 <input name="title" type="search" placeholder="Cerca" required>
             </form>
@@ -185,19 +199,19 @@
                 <div class="dot"></div>
                 <div class="item-runtime" id="runtimedetail"></div>
                 <div class="dot"></div>
-
+            <!--
                 <div class="star"></div>
                 <div class="star"></div>
                 <div class="star"></div>
                 <div class="star"></div>
                 <div class="star null"></div>
-                <div class="health-icon Excellent"></div>
+            -->
 
                 <div class="item-overview" id="overviewdetail"></div>
                 <div id="btn-watch">
                     <div class="watch-now"><a style="color:white;text-decoration:none" class="player" href="http://www.youtube.com/">Guarda Ora</a></div>
                 </div>
-
+            <!--
                 <div class="q720">LQ</div>
 
 
@@ -208,7 +222,7 @@
 
                     <span class="toggle"></span>
                 </div>
-				
+            -->				
                
 
                 <div class="flag first italian"></div>
@@ -238,7 +252,7 @@
 												<div class="addtoqueue"></div>
 											</div>
 										</div>
-
+                                        
 										<div class="title">
 											'.$film->titolo.'
 										</div>
@@ -246,7 +260,9 @@
 										<div class="year">
 											'.substr($film->anno, 0, 4).'
 										</div>
-									</div>';
+									</div>
+                                    ';
+
 					}
 				}
 				?>
@@ -254,11 +270,11 @@
         <div id="filler" style="width: 100%;height: 100%;margin: 0;padding: 0;position: absolute; top: 0; left: 0;background-color: #17181b;"></div>
              
         <!-- More -->
-   <!-- <div class="load">
-            <button type="button" class="btn btn-primary btn-lg btn-block">
-        </div> -->
-	<div class="load-more">
+
+	<div class="load-more"  >
 		<div class="logo load-icon">
+            <button type="button" class="btn btn-primary btn-lg btn-block">MORE</button>
+
 		</div>
 	</div>
         
@@ -292,36 +308,36 @@ $('#item-container').isotope({
 </script>";
 } ?>
 <script>
-	//Smooth scroll
-if (window.addEventListener) window.addEventListener('DOMMouseScroll', wheel, false);
-window.onmousewheel = document.onmousewheel = wheel;
+//Smooth scroll
+    if (window.addEventListener) window.addEventListener('DOMMouseScroll', wheel, false);
+    window.onmousewheel = document.onmousewheel = wheel;
 
-function wheel(event) {
-    var delta = 0;
-    if (event.wheelDelta) delta = event.wheelDelta / 120;
-    else if (event.detail) delta = -event.detail / 3;
+    function wheel(event) {
+        var delta = 0;
+        if (event.wheelDelta) delta = event.wheelDelta / 120;
+        else if (event.detail) delta = -event.detail / 3;
 
-    handle(delta);
-    if (event.preventDefault) event.preventDefault();
-    event.returnValue = false;
-}
+        handle(delta);
+        if (event.preventDefault) event.preventDefault();
+        event.returnValue = false;
+    }
 
-function handle(delta) {
-    var time = 450;
-	var distance = 300;
-    
-    $('html, body').stop().animate({
-        scrollTop: $(window).scrollTop() - (distance * delta)
-    }, time );
-}
+    function handle(delta) {
+        var time = 450;
+    	var distance = 300;
+        
+        $('html, body').stop().animate({
+            scrollTop: $(window).scrollTop() - (distance * delta)
+        }, time );
+    }
 </script>
 
 <script>
-	//active state for lateral settings
-$('.settings').click(function(e){
-    $(this).toggleClass('page');
-    e.preventDefault();
-});
+//active state for lateral settings
+    $('.settings').click(function(e){
+        $(this).toggleClass('page');
+        e.preventDefault();
+    });
 </script>
 
 <script type="text/javascript" src="js/scrollmenu.js"></script>
@@ -330,13 +346,14 @@ $('.settings').click(function(e){
 <script type="text/javascript" src="js/jquery.magnific-popup.min.js"></script>
 <script type="text/javascript" src="js/jquery.bar.js"></script>
 <script>
-	//Fullscreen caller
+	
+//Fullscreen caller
 	function fullscreen() {
 		$(".settings").trigger( "click" );
 		$(document).fullScreen(true);
 	}
 	
-	// Video player
+// Video player
       $(document).ready(function() {
         $('.player').magnificPopup({
           disableOn: 700,
@@ -348,40 +365,47 @@ $('.settings').click(function(e){
         });
       });
 
-var genres = ["Tutti","Comico","Drammatico","Storico"];
-var i = 1;
-      $('.genre,.genre-sort').click( function(e){
-		  $('#genre-chooser').animate({ opacity: 0.8 }, 180 ).text(genres[i]).animate({ opacity: 1 }, "fast" );
-			  $('.genre').attr('data-filter',(i==0) ? '*' : i);
-			  (i==3) ? i = 0 : i++;
-			  var filterValue = $('.genre').attr('data-filter');
-			  if (filterValue!='*')
-					filterValue = "."+filterValue;
-			  $('#item-container').isotope({ filter: filterValue });
-			  
-		  });
-		 
-var sorts = ["Popolarità","Titolo","Anno"];
-var sortsval = ["original-order","title","year"];
-var j = 1;
-		  $('.sort-by').click( function() {
-			    $('#sort-text').animate({ opacity: 0.8 }, 180 ).text(sorts[j]).animate({ opacity: 1 }, "fast" );
-			    $('.sort-by').attr('data-sort-value',sortsval[j]);
-				(j==2) ? j = 0 : j++;
-			var sortValue = $(this).attr('data-sort-value');
-			$('#item-container').isotope({ sortBy: sortValue });
-		  });
-		  
-$('.favorites, .queue').click(function(){
-	 $(".favorites").bar({
-								color			 : '#2d75df',
-								background_color : 'rgba(255,255,255, 0.8)',
-								position		 : 'bottom',
-								removebutton     : false,
-								message			 : "Non sei loggato!",
-								time			 : 3000
-						});
-});
+//set up Genres
+    var genres = ["Tutti","Comico","Drammatico","Storico","Non Definito","Commedia","Giallo","Avventura","Grottesco"];
+    var i = 1;
+          $('.genre,.genre-sort').click( function(e){
+    		  $('#genre-chooser').animate({ opacity: 0.8 }, 180 ).text(genres[i]).animate({ opacity: 1 }, "fast" );
+    			  $('.genre').attr('data-filter',(i==0) ? '*' : i);
+    			  (i==8) ? i = 0 : i++;
+    			  var filterValue = $('.genre').attr('data-filter');
+    			  if (filterValue!='*')
+    					filterValue = "."+filterValue;
+    			  $('#item-container').isotope({ filter: filterValue });
+    			  
+    		  });
+
+//Order By	 
+    var sorts = ["Popolarità","Titolo","Anno"];
+    var sortsval = ["original-order","title","year"];
+    var j = 1;
+    		  $('.sort-by').click( function() {
+    			    $('#sort-text').animate({ opacity: 0.8 }, 180 ).text(sorts[j]).animate({ opacity: 1 }, "fast" );
+    			    $('.sort-by').attr('data-sort-value',sortsval[j]);
+    				(j==2) ? j = 0 : j++;
+    			var sortValue = $(this).attr('data-sort-value');
+    			$('#item-container').isotope({ sortBy: sortValue });
+    		  });
+
+//favorites  
+    $('.favorites, .queue').click(function(){
+		if ($('#menu li:first a').attr('href') == undefined)
+			{
+    	 $(".favorites").bar({
+    								color			 : '#2d75df',
+    								background_color : 'rgba(255,255,255, 0.8)',
+    								position		 : 'bottom',
+    								removebutton     : false,
+    								message			 : "Non sei loggato!",
+    								time			 : 3000
+    						});
+						
+			} else window.location.replace('http://revampmovies.org/'+$('#menu li:first a').attr('href'));
+		});
 </script>
 
 </html>

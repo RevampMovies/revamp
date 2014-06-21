@@ -44,8 +44,6 @@
     cursor: pointer;
     background-image: url('../images/Placeholder.png')
     
-    
-    
 }
 #item .itemoverlay {
     background: rgba(45, 117, 223, .70);
@@ -57,7 +55,7 @@
     -webkit-transition: opacity .25s ease;
     -moz-transition: opacity .25s ease;
     transition: opacity .25s ease;
-    
+  
     
     
     

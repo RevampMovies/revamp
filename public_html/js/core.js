@@ -151,6 +151,29 @@ $( document ).on( "click", ".addtofavorites", function (e) {
 			  }   
 			}); 
 		  });
+/*------ ADD TO QUEUE ------*/
+$( document ).on( "click", ".addtoqueue", function (e) {
+		  e.stopPropagation();
+		  	var parentid = $(this).parent().parent().parent().data('idfilm');
+			  $.ajax({
+			  url: "watchlater/"+parentid,
+			  type: "post",
+			  datatype: 'json',
+			  success: function(data){
+				   $('.addtoqueue').animate({ paddingBottom: 10, opacity: 0.5 }, {duration: 250, easing: 'easeOutBounce'}).animate({ paddingBottom: 0, opacity: 1 }, {duration: 250, easing: 'easeOutBounce'});
+				},
+			  error:function(request, status, error){
+				          $(".addtoqueue").bar({
+								color			 : '#2d75df',
+								background_color : 'rgba(255,255,255, 0.8)',
+								position		 : 'bottom',
+								removebutton     : false,
+								message			 : jQuery.parseJSON(request.responseText).error,
+								time			 : 3000
+						});
+			  }   
+			}); 
+		  });
 		  
 /*------ STREAM FEED LOADER ------*/
 $(window).scroll(function() {
