@@ -57,7 +57,7 @@ return array(
 			'host'      => 'localhost',
 			'database'  => 'revampmovies',
 			'username'  => 'revampmovies',
-			'password'  => 'rvmp!2014!db',
+			'password'  => 'rvmp!db',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',
