@@ -75,7 +75,10 @@ class UserController extends BaseController {
 			}
 			$profile = unserialize( $str );
 			if ( is_array( $profile ) && isset( $profile['entry'] ) )
-				return $profile['entry'][0]; //['displayName'];
+				if (!isset($profile['entry']['name']['formatted'])) //bug fix gravatar API
+					return array( "currentLocation" => "Sconosciuta",	"name" => array( "formatted" => $email) );
+				else
+					return $profile['entry'][0]; //['displayName'];
 	 
 	}
 
