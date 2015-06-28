@@ -187,7 +187,7 @@
                 <h2 style="font-size: 3.429em;font-weight: normal;max-width: 60%;margin: 1em auto 0px;">
                     <?php echo $usernick; ?>
                 </h2>
-                <p style="line-height: 1.3;font-size: 1.2857em;max-width: 600px;margin: 24px auto;font-weight: normal;-webkit-font-smoothing: antialiased;" class="description"><?php echo $profiledump['name']['formatted']; ?></p>
+                <p style="line-height: 1.3;font-size: 1.2857em;max-width: 600px;margin: 24px auto;font-weight: normal;-webkit-font-smoothing: antialiased;" class="description"><?php echo $profiledump['name']; ?></p>
 
 
             </div>
@@ -200,10 +200,10 @@
 
                 <li class="right" style="display: inline-block;float: right;">
                     
-                            <?php if (isset($profiledump['accounts'][0]['url']))
-								echo '<i class="fa fa-external-link"></i>&nbsp;<a style="text-decoration: none;color: #2d75df;" target="_blank" href="'.$profiledump['accounts'][0]['url'].'">'.ucfirst($profiledump['accounts'][0]['shortname']).'</a>';
+                            <?php if (isset($profiledump['url']))
+								echo '<i class="fa fa-external-link"></i>&nbsp;<a style="text-decoration: none;color: #2d75df;" target="_blank" href="'.$profiledump['url'].'">'.ucfirst($profiledump['shortname']).'</a>';
                              else
-								echo '<i class="fa fa-external-link"></i>&nbsp;Ancora nessuno!';
+								echo '<i class="fa fa-external-link"></i>&nbsp;Ancora nessuno!'; 
 								?>
                 </li>
             </ul>

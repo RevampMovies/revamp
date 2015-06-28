@@ -74,11 +74,29 @@ class UserController extends BaseController {
 				return $unknownprofile;
 			}
 			$profile = unserialize( $str );
-			if ( is_array( $profile ) && isset( $profile['entry'] ) )
-				if (!isset($profile['entry']['name']['formatted'])) //bug fix gravatar API
-					return array( "currentLocation" => "Sconosciuta",	"name" => array( "formatted" => $email) );
+			$returned = array();
+			if ( is_array( $profile ) && isset( $profile['entry'] ) ) {
+				if (isset($profile['entry'][0]['currentLocation']))
+					$returned['currentLocation'] = $profile['entry'][0]['currentLocation'];
 				else
-					return $profile['entry'][0]; //['displayName'];
+					$returned['currentLocation'] = "Sconosciuta";
+					
+				if (isset($profile["entry"][0]["name"]["formatted"]))
+					$returned['name'] = $profile["entry"][0]["name"]["formatted"];
+				else if (isset($profile['entry'][0]['preferredUsername']))
+					$returned['name'] = $profile['entry'][0]['preferredUsername'];
+				else
+					$returned['name'] = $email;
+					
+				if (isset($profile['entry'][0]['accounts'][0]['url']))
+					$returned['url'] = $profile['entry'][0]['accounts'][0]['url'];
+				if (isset($profile['entry'][0]['accounts'][0]['shortname']))
+					$returned['shortname'] = $profile['entry'][0]['accounts'][0]['shortname'];
+
+					
+					return $returned;
+			} else	
+					return array( "currentLocation" => "Sconosciuta",	"name" => array( "formatted" => $email) );
 	 
 	}
 
